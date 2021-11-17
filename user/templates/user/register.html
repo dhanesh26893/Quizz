@@ -1,0 +1,38 @@
+{% extends "user/base.html" %}
+
+{% block head %}
+    <style>
+        .helptext{
+            visibility:hidden;
+            display:none;
+        }
+        #show{
+            font-size:25px;
+        }
+    </style>
+
+{% endblock head %}
+
+{% block content %}
+
+
+    <div  class="container" style="max-width:500px">
+        <h4 style="text-align:center;">Register</h4>
+        <form method="POST" action="#">
+            {% csrf_token %}
+            
+                {{ form }}
+            
+            <div style="margin-left:43%;" class="form-group text-center">
+                <button class="btn btn-outline-info m-3" type="submit">Sign Up</button>
+            </div> 
+        </form>
+
+        <div style="margin-left:30%;margin-top:10px;" id="show">
+            <small class="text-muted">
+            Already have an account? <a class="ml-2" href="{% url 'login' %}">login</a>
+            </small>
+        </div>
+    </div>
+
+{% endblock content %}
