@@ -9,16 +9,123 @@
         font-size:25px;
 
     }
+    #msg{
+                margin-top:40px;
+                font-size:20px;
+                text-align:center;
+            }
+    
+    .modal-close{
+      position:absolute;
+      top: 10px;
+      right: 10px;
+      margin: 0;
+      padding:0;
+    }
+
+
     </style>
+
 {% endblock head %}
 
 {% block content %}
+
+
+       <nav class="blue lighten-2">
+    <div class="nav-wrapper container">
+      <a href="{% url 'home' %}" class="brand-logo">Quizz Portal</a>
+      <ul class="right hide-on-med-and-down">
+        {% if user.is_authenticated%}
+        <li><a class="waves-effect waves-light btn" href="{% url 'profile' %}">Profile</a></li>
+        <li><a class="waves-effect waves-light btn" href="{% url 'logout' %}">Log Out</a></li>
+        {%else%}
+        <li><a class="waves-effect waves-light btn" href="{% url 'register' %}">Sign Up</a></li>
+        <li><a class="waves-effect waves-light btn" href="{% url 'login' %}">Log In</a></li>
+        {%endif%}
+        </ul>
+    </div>
+  </nav>
+  
+
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.tags == "error"%}
+      <div class="alert alert-danger">
+        {{ message }}
+      </div>
+      {% else %}
+      <div class="alert alert-success">
+        {{ message }}
+      </div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+        
+        <!-- {%if messages%} -->
+            <!-- {%for msg in messages%} -->
+                <!-- {{msg}} -->
+            <!-- {%endfor%} -->
+        <!-- {%endif%} -->
+    
+
+
     <div style="margin:10% 20%;" class="container">
     {% if user.is_authenticated %}
-        <h4>Welcome {{user.username}}</h4>
-        <a href="{% url 'logout' %}">Logout</a>
+        <h2>Welcome {{user.username|title}}</h2>
+  
+        {%if not verified%}
+
+
+            <!-- <a id="verifyAccount" href="" class="btn btn-primary">Verify Account</a> -->
+
+
+  <!-- Modal Trigger -->
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Verify Account</a>
+
+   
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <h5 class="modal-close">&#10005;</h5>
+    <div class="modal-content">
+      <h4>OTP Verification</h4>
+      <div class="row">
+        <form method = "post" action="{% url 'verifyotp'%}" class="col s8 m10 l10 ">
+          {% csrf_token %}
+          <div class="row">
+            <div class="input-field col s6 m6 l6">
+              <input data-length="6" placeholder="Enter OTP received via email" name="otp" id="otp" type="text" class="validate">
+              <label for="otp"></label>
+              <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper text</span> -->
+          </div>
+          <div id="modalid" class="col s6 m6 l6 offset-s12 right-align">
+              <button class="btn waves-effect waves-light" type="submit" name="action">Verify
+              <i class="material-icons right">send</i>
+              </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+  </div>
+
+        {%endif%}
     {%else%}
         <p>You are not logged in.. <br>please <a href="{% url 'login'%}">log in</a></p>
     {%endif%}
     </div>
+
+    <script>
+
+//   document.addEventListener('DOMContentLoaded', function() {
+    // var elems = document.querySelectorAll('.modal');
+    // var instances = M.Modal.init(elems, options);
+//   });
+
+        // Or with jQuery
+
+  $(document).ready(function(){
+    $('.modal').modal();
+  });
+    </script>
+
 {% endblock content %}

@@ -15,6 +15,17 @@
 
 {% block content %}
 
+       <nav class="blue lighten-2">
+    <div class="nav-wrapper container">
+      <a href="{% url 'home' %}" class="brand-logo">Quizz Portal</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a class="waves-effect waves-light btn" href="{% url 'register' %}">Sign Up</a></li>
+        <li><a class="waves-effect waves-light btn" href="{% url 'login' %}">Log In</a></li>
+        </ul>
+    </div>
+  </nav>
+  
+
 
     <div  class="container" style="max-width:500px">
         <h4 style="text-align:center;">Register</h4>

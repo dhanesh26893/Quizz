@@ -1,6 +1,17 @@
 {% extends 'user/base.html' %}
 
 {% block content %}
+
+       <nav class="blue lighten-2">
+    <div class="nav-wrapper container">
+      <a href="{% url 'home' %}" class="brand-logo">Quizz Portal</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a class="waves-effect waves-light btn" href="{% url 'register' %}">Sign Up</a></li>
+        <li><a class="waves-effect waves-light btn" href="{% url 'login' %}">Log In</a></li>
+        </ul>
+    </div>
+  </nav>
+  
     
     <h2 class="p-2"> You have been logged out </h2>
     <div class="border-top p-2">
