@@ -14,11 +14,21 @@
                 margin-top:10px;
                 font-size:25px;
             }
-            #msg{
-                margin-top:40px;
-                font-size:20px;
-                text-align:center;
-            }
+               #msghere{
+      background-color: rgb(214, 236, 229);
+      color:black;
+      width: auto;
+      margin: 25px;
+      font-size: large;
+      text-align: center;
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 500;
+      padding: 10px 30px;
+      border:"5px solid black";
+      position: relative;
+    }
+
+            
         </style>
 {% endblock head %}
 
@@ -36,13 +46,15 @@
   </nav>
   
 
-    <div id="msg" style="color:red" class="container">
-        {%if messages%}
+  {%if messages%}
+    <div id="msghere"  class="container">
+       
             {%for msg in messages%}
                 {{msg}}
             {%endfor%}
-        {%endif%}
+        
     </div>
+    {%endif%}
 
 
 <center>
@@ -51,18 +63,24 @@
             {% csrf_token %}
             <h4 style="text-align:center;">Log In</h4>
 
+            <div class="form-group">
+                
+
                 {{form.as_p }}
 
             <div style="text-align:center;" >
                 <button id="btn" class="btn btn-outline-info m-3" type="submit">Log in</button>
             </div> 
-        </form>
+            </form>
 
-        <div id="noaccount" >
-            <small class="text-muted">
-            Don't have an account? <a class="ml-2" href="{% url 'register' %}">Sign Up</a>
-            </small>
+            <div id="noaccount" >
+                <small class="text-muted">
+                Don't have an account? <a class="ml-2" href="{% url 'register' %}">Sign Up</a>
+                </small>
+            </div>
         </div>
     </div>
     </center>
+
+
 {% endblock content %}

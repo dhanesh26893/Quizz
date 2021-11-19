@@ -1,12 +1,16 @@
 from django.views import View
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from .forms import UserRegisterForm,ProfileVerifyForm
-from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from .models import Profile
 from django.contrib.auth import authenticate,login
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
+from .forms import UserRegisterForm
+from django.contrib.auth.forms import PasswordChangeForm,AdminPasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 class homePageView(View):
     """
@@ -17,14 +21,10 @@ class homePageView(View):
             profile = Profile.objects.get(pk=request.user.pk)
         except Profile.DoesNotExist:
             return render(request,"user/home.html")
-        # print("id we get------------>",id)
-        # profile.is_verified=True
-        # profile.save()
         if profile.is_verified:
             verified = True
             return render(request,"user/home.html",{"verified":verified})
         return render(request,"user/home.html")    
-    # template_name = "user/home.html"
 
 
 class registerPageView(View):
@@ -53,88 +53,62 @@ class registerPageView(View):
             new_user = authenticate(username=username,password=password)
             if new_user:
                 login(request,new_user)
-            
                 request.session['email'] = email
                 request.session['username'] = username
-
-            # request.session['data'] = form.cleaned_data
-                return redirect("home")
-            
-            
-            # return redirect('login')
+                return redirect("home")            
         return render(request, 'user/register.html', {'form': form})
 
 
 class verifyProfileOtp(View):
     def post(self,request):
         entered_otp = request.POST.get('otp')
-        print("entered otp:",entered_otp)
         id = request.user.pk
         profile = Profile.objects.get(pk=id)
         mailed_otp = profile.otp
-        print("otp sent:---->",mailed_otp)
-        # print(type(entered_otp))
-        # print(type(mailed_otp))
         eOTP = int(entered_otp)
         mOTP = int(mailed_otp)
         if eOTP == mOTP:
-            messages.success(request,"OTP Matched..")
-            print("\nOTP Matched\n")
+            messages.success(request,"Cheers.. OTP Matched..")
             profile.is_verified= True 
             profile.save()
             return redirect("home")
         else:
-            messages.error(request,"OTP Mismatched")
-            print("\n\nOTP Mismatched\n\n")
+            messages.error(request,"Sorry.. OTP Mismatched..")
         return redirect("home")    
 
-
+@method_decorator(login_required(login_url=reverse_lazy("login")),name="dispatch")
 class profilePageView(View):
     def get(self,request):
-        id = request.user.pk
-        profile = Profile.objects.get(pk=id)
+        return render(request,'user/profile.html')
 
 
-        print("id:",id)
-        if request.user.is_authenticated:
-                print("user authenticated")
-        else:
-                print("no authenticated")
-        print(request.user.id)
-        # profile = Profile.objects.get(pk=id)
-        # print(profile)
-        form = ProfileVerifyForm()
-
-        return render(request,'user/profile.html',{"form":form})
-
-
-
-
-# def generate_otp():
-#     otp = ""
-#     for i in range(6):
-#         otp+=str(random.randint(0,9))
-#     return otp
-
-# @receiver(post_save, sender=User)
-# def check_otp(sender, instance,created, **kwargs):
-#     if created:
-#         username = instance.username
-#         email = instance.email
-
-#         otp = generate_otp()
-
-#         subject = "OTP Verification"
-#         message = f"Hello {username}. OTP for verification is - {otp}"
-#         email_from = settings.EMAIL_HOST_USER
-#         recipient = [email]
-#         print("\n\nsubject:",subject)
-#         print("message:",message)
-#         print("email from:",email_from)
-#         print("recepient:",recipient,"\n\n")
-#         send_mail(subject,message,email_from,recipient,fail_silently=False)
-
-#         return redirect("home")
+class ChangeProfilePassword(View):
+    def get(self,request):
+        # print(dir(request.user))
+        if request.user.is_superuser:
+            form = AdminPasswordChangeForm(request.user)
+            return render(request,"user/changeAdminPassword.html",{"form":form})
+            # messages.success(request,"Admin passwords can not be changed..Please try another account")
+            # return redirect('profile')
+        form = PasswordChangeForm(request.user)
+        return render(request,"user/change_password.html",{"form":form})
     
-    # instance.profile.save()
-
+    def post(self,request):
+        if request.user.is_superuser:
+            form = AdminPasswordChangeForm(request.user,data = request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request,form.user)
+                messages.success(request,f"Dear {request.user.username} Your password has been successfully updated!!")
+                return redirect('profile')
+            messages.error(request,f'Dear {request.user.username}, Change Password failed due to Incorrect input.. Please try again..')
+            return redirect('profile')    
+        
+        form = PasswordChangeForm(request.user,request.POST)
+        if form.is_valid():
+            user=form.save()
+            messages.success(request,"Your password was successfully updated!!!")
+            return redirect('profile')
+        messages.error(request,"Change Password failed due to Incorrect input.. Please try again..")
+        return redirect('profile')
+            
