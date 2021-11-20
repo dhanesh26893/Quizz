@@ -51,6 +51,15 @@
       <a href="{% url 'home' %}" class="brand-logo">Quizz Portal</a>
       <ul class="right hide-on-med-and-down">
         {% if user.is_authenticated%}
+
+
+       {%if not verified%}
+            <!-- <a id="verifyAccount" href="" class="btn btn-primary">Verify Account</a> -->
+            <!-- Modal Trigger -->
+            <li><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Verify Account</a></li>
+        {%endif%}
+ 
+
         <li><a class="waves-effect waves-light btn" href="{% url 'profile' %}">Profile</a></li>
         <li><a class="waves-effect waves-light btn" href="{% url 'logout' %}">Log Out</a></li>
         {%else%}
@@ -79,16 +88,14 @@
     {% if user.is_authenticated %}
         <h2>Welcome {{user.username|title}}</h2>
   
-        {%if not verified%}
+ 
+ 
+    {%else%}
+        <p>You are not logged in.. <br>please <a href="{% url 'login'%}">Log In</a> or <a href="{% url 'register'%}">Register</a></p>
+    {%endif%}
+    </div>
 
-
-            <!-- <a id="verifyAccount" href="" class="btn btn-primary">Verify Account</a> -->
-
-
-  <!-- Modal Trigger -->
-  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Verify Account</a>
-
-   
+  
   <!-- Modal Structure -->
   <div id="modal1" class="modal">
     <h5 class="modal-close">&#10005;</h5>
@@ -113,13 +120,6 @@
     </div>
   
   </div>
-
-        {%endif%}
-    {%else%}
-        <p>You are not logged in.. <br>please <a href="{% url 'login'%}">log in</a></p>
-    {%endif%}
-    </div>
-
 
     <!-- Optional Javascript -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

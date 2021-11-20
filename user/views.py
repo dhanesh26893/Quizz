@@ -76,6 +76,7 @@ class verifyProfileOtp(View):
             messages.error(request,"Sorry.. OTP Mismatched..")
         return redirect("home")    
 
+
 @method_decorator(login_required(login_url=reverse_lazy("login")),name="dispatch")
 class profilePageView(View):
     def get(self,request):
@@ -84,12 +85,10 @@ class profilePageView(View):
 
 class ChangeProfilePassword(View):
     def get(self,request):
-        # print(dir(request.user))
+        
         if request.user.is_superuser:
             form = AdminPasswordChangeForm(request.user)
             return render(request,"user/changeAdminPassword.html",{"form":form})
-            # messages.success(request,"Admin passwords can not be changed..Please try another account")
-            # return redirect('profile')
         form = PasswordChangeForm(request.user)
         return render(request,"user/change_password.html",{"form":form})
     
@@ -98,16 +97,16 @@ class ChangeProfilePassword(View):
             form = AdminPasswordChangeForm(request.user,data = request.POST)
             if form.is_valid():
                 user = form.save()
-                update_session_auth_hash(request,form.user)
-                messages.success(request,f"Dear {request.user.username} Your password has been successfully updated!!")
-                return redirect('profile')
+                # update_session_auth_hash(request,form.user)
+                messages.success(request,f"Dear {request.user.username} Your password has been successfully updated!! Please Login again..")
+                return redirect('login')
             messages.error(request,f'Dear {request.user.username}, Change Password failed due to Incorrect input.. Please try again..')
             return redirect('profile')    
         
         form = PasswordChangeForm(request.user,request.POST)
         if form.is_valid():
             user=form.save()
-            messages.success(request,"Your password was successfully updated!!!")
+            messages.success(request,"Your password has been successfully updated!!! Please login..")
             return redirect('profile')
         messages.error(request,"Change Password failed due to Incorrect input.. Please try again..")
         return redirect('profile')
