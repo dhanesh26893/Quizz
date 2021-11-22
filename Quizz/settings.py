@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'crispy_forms',
+    'quizApp'
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
@@ -57,11 +58,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Quizz.urls'
-
+import os
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,"templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

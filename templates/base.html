@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+ <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    {%block head%}
+    
+    {%endblock%}
+    <title>Quiz App</title>
+  </head> 
+  <body>
+    
+    {% block scripts %}
+    
+    {% endblock scripts %}
+    
+
+
+       <nav class="blue lighten-2">
+    <div class="nav-wrapper container">
+      <a href="{% url 'home' %}" class="brand-logo">Quizz Portal</a>
+      <ul class="right hide-on-med-and-down">
+        {% if user.is_authenticated%}
+
+
+       {%if not verified%}
+            <!-- <a id="verifyAccount" href="" class="btn btn-primary">Verify Account</a> -->
+            <!-- Modal Trigger -->
+            <li><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Verify Account</a></li>
+        {%endif%}
+ 
+
+        <li><a class="waves-effect waves-light btn" href="{% url 'profile' %}">Profile</a></li>
+        <li><a class="waves-effect waves-light btn" href="{% url 'logout' %}">Log Out</a></li>
+        {%else%}
+        <li><a class="waves-effect waves-light btn" href="{% url 'register' %}">Sign Up</a></li>
+        <li><a class="waves-effect waves-light btn" href="{% url 'login' %}">Log In</a></li>
+        {%endif%}
+        </ul>
+    </div>
+  </nav>
+    
+    
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{message}}
+        </div>
+      {% endfor%}
+    {% endif %}
+
+    {% block content %}{% endblock content %}
+
+  </body>
+</html>

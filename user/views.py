@@ -17,15 +17,15 @@ class homePageView(View):
         After successfull login render this template
     """
     def get(self,request):
-        try:
-            profile = Profile.objects.get(pk=request.user.pk)
-        except Profile.DoesNotExist:
-            return render(request,"user/home.html")
-        if profile.is_verified:
-            verified = True
-            return render(request,"user/home.html",{"verified":verified})
-        return render(request,"user/home.html")    
-
+        # try:
+        #     profile = Profile.objects.get(pk=request.user.pk)
+        # except Profile.DoesNotExist:
+        #     return render(request,"user/home.html")
+        # if profile.is_verified:
+        #     verified = True
+        #     return render(request,"user/home.html",{"verified":verified})
+        # return render(request,"user/home.html")    
+        return redirect('homepage')
 
 class registerPageView(View):
     """
@@ -55,7 +55,7 @@ class registerPageView(View):
                 login(request,new_user)
                 request.session['email'] = email
                 request.session['username'] = username
-                return redirect("home")            
+                return redirect("homepage")            
         return render(request, 'user/register.html', {'form': form})
 
 
@@ -71,10 +71,10 @@ class verifyProfileOtp(View):
             messages.success(request,"Cheers.. OTP Matched..")
             profile.is_verified= True 
             profile.save()
-            return redirect("home")
+            return redirect("homepage")
         else:
             messages.error(request,"Sorry.. OTP Mismatched..")
-        return redirect("home")    
+        return redirect("homepage")    
 
 
 @method_decorator(login_required(login_url=reverse_lazy("login")),name="dispatch")
