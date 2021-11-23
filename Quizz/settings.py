@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'quizApp'
 ]
 
+AUTH_USER_MODEL = 'user.user'
+
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
@@ -155,3 +157,5 @@ MESSAGE_TAGS = {
         messages.WARNING: 'alert-warning',
         messages.ERROR: 'alert-danger',
 }
+
+AUTH_USER_MODEL = "user.user"

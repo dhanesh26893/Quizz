@@ -37,7 +37,7 @@
         {%endif%}
  
 
-        <li><a class="waves-effect waves-light btn" href="{% url 'profile' %}">Profile</a></li>
+        {% comment %} <li><a class="waves-effect waves-light btn" href="{% url 'profile' %}">Profile</a></li> {% endcomment %}
         <li><a class="waves-effect waves-light btn" href="{% url 'logout' %}">Log Out</a></li>
         {%else%}
         <li><a class="waves-effect waves-light btn" href="{% url 'register' %}">Sign Up</a></li>

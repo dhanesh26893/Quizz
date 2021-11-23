@@ -1,4 +1,4 @@
-{% extends "user/base.html" %}
+{% extends "base.html" %}
 
 {% block head %}
     <style>
@@ -14,17 +14,6 @@
 {% endblock head %}
 
 {% block content %}
-
-       <nav class="blue lighten-2">
-    <div class="nav-wrapper container">
-      <a href="{% url 'home' %}" class="brand-logo">Quizz Portal</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a class="waves-effect waves-light btn" href="{% url 'register' %}">Sign Up</a></li>
-        <li><a class="waves-effect waves-light btn" href="{% url 'login' %}">Log In</a></li>
-        </ul>
-    </div>
-  </nav>
-  
 
 
     <div  class="container" style="max-width:500px">
