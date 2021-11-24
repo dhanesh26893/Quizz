@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as authViews
-from .views import registerPageView
+from .views import VerifyOtp, registerPageView
     
 
 urlpatterns = [
@@ -11,5 +11,5 @@ urlpatterns = [
     # path('profile/',profilePageView.as_view(),name="profile"),
     # path('verifyotp/',verifyProfileOtp.as_view(),name="verifyotp"),
     # path('changepassword/',ChangeProfilePassword.as_view(),name="changepassword"),
-
+    path('otpVerification/', VerifyOtp.as_view(), name="otp_verification"),
 ]

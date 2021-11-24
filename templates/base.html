@@ -30,19 +30,19 @@
         {% if user.is_authenticated%}
 
 
-       {%if not verified%}
-            <!-- <a id="verifyAccount" href="" class="btn btn-primary">Verify Account</a> -->
-            <!-- Modal Trigger -->
-            <li><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Verify Account</a></li>
-        {%endif%}
+             {%if not verified%}
+                 <!-- <a id="verifyAccount" href="" class="btn btn-primary">Verify Account</a> -->
+                <!-- Modal Trigger -->
+                <li><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Verify Account</a></li>
+             {%endif%}
  
 
-        {% comment %} <li><a class="waves-effect waves-light btn" href="{% url 'profile' %}">Profile</a></li> {% endcomment %}
-        <li><a class="waves-effect waves-light btn" href="{% url 'logout' %}">Log Out</a></li>
-        {%else%}
-        <li><a class="waves-effect waves-light btn" href="{% url 'register' %}">Sign Up</a></li>
-        <li><a class="waves-effect waves-light btn" href="{% url 'login' %}">Log In</a></li>
-        {%endif%}
+            {% comment %} <li><a class="waves-effect waves-light btn" href="{% url 'profile' %}">Profile</a></li> {% endcomment %}
+            <li><a class="waves-effect waves-light btn" href="{% url 'logout' %}">Log Out</a></li>
+       {%else%}
+            <li><a class="waves-effect waves-light btn" href="{% url 'register' %}">Sign Up</a></li>
+            <li><a class="waves-effect waves-light btn" href="{% url 'login' %}">Log In</a></li>
+       {%endif%}
         </ul>
     </div>
   </nav>

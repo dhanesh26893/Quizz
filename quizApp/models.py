@@ -35,11 +35,14 @@ class Answer(models.Model):
     answer_text = models.CharField(max_length=100)
     correct = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"{self.question_id}\t:\t{self.answer_text}\t:\t{self.correct}"
+
 class Quiz_Taken(models.Model):
     user_id = models.ForeignKey(User,on_delete=models.PROTECT)
     question_id = models.ForeignKey(Questions,on_delete=models.PROTECT)
-    answer_id = models.CharField(max_length=1)
-    answer_text = models.CharField(max_length=100)
+    answer_id = models.CharField(max_length=1,blank=True,null=True)
+    answer_text = models.CharField(max_length=100,blank=True,null=True)
     # def __str__(self):
     #     return f"{self.question_id.question_text}\t:\t{self.answer_}"
 

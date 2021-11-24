@@ -70,6 +70,14 @@
     {%endif%}
     </div>
 
+    <div class="container">
+    {%if Quizes%}
+        <ul>
+          <li>{{Quizes.topic}}</li>
+          <li>{{Quizes.desc}}</li>
+        </ul>
+    {%endif%}
+  </div>
   
   <!-- Modal Structure -->
   <div id="modal1" class="modal">
@@ -77,7 +85,7 @@
     <div class="modal-content">
       <h4>OTP Verification</h4>
       <div class="row">
-        <form method = "post" action="/" class="col s8 m10 l10 ">
+        <form method = "post" action="{% url 'otp_verification'%}" class="col s8 m10 l10 ">
           {% csrf_token %}
           <div class="row">
             <div class="input-field col s6 m6 l6">
