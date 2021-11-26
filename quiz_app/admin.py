@@ -1,8 +1,11 @@
 from django.contrib import admin
-from .models import Questions,Quiz,Quiz_Taken,Answer
+from .models import Questions,Quiz,QuizTaken,Answer
 
-admin.site.register(Quiz_Taken)
-admin.site.register(Quiz)
+class QuizAdmin(admin.ModelAdmin):
+    list_display = ['quiz_id','topic','desc']
+
+admin.site.register(QuizTaken)
+admin.site.register(Quiz,QuizAdmin)
 admin.site.register(Answer)
 admin.site.register(Questions)
 

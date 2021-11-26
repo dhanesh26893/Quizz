@@ -1,6 +1,5 @@
 from django.db import models
 import uuid 
-# from django.contrib.auth.models import User
 from user.models import User
 
 class Quiz(models.Model):
@@ -17,8 +16,7 @@ Types = (
     ('FIB','Fill In the Blank Question')
 )
 
-class Questions(models.Model):
-    
+class Questions(models.Model):    
     question_id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False,unique=True) 
     quiz_id = models.ForeignKey(Quiz,on_delete=models.PROTECT)
     question_text = models.CharField(max_length=100)
@@ -38,31 +36,8 @@ class Answer(models.Model):
     def __str__(self):
         return f"{self.question_id}\t:\t{self.answer_text}\t:\t{self.correct}"
 
-class Quiz_Taken(models.Model):
+class QuizTaken(models.Model):
     user_id = models.ForeignKey(User,on_delete=models.PROTECT)
     question_id = models.ForeignKey(Questions,on_delete=models.PROTECT)
     answer_id = models.CharField(max_length=1,blank=True,null=True)
     answer_text = models.CharField(max_length=100,blank=True,null=True)
-    # def __str__(self):
-    #     return f"{self.question_id.question_text}\t:\t{self.answer_}"
-
-# class MCQ(models.Model):
-#     #id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False,unique=True) 
-#     question = models.ForeignKey(Questions,on_delete=models.CASCADE)
-#     option1 = models.CharField(max_length=100)
-#     option2 = models.CharField(max_length=100)
-#     option3 = models.CharField(max_length=100)
-#     option4 = models.CharField(max_length=100)
-#     answer = models.CharField(max_length=100)
-
-#     def __str__(self):
-#         return f"{self.question.question_name} \t:\t {self.answer}"
-
-# class FIB(models.Model):
-#     #id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False,unique=True)
-#     question = models.ForeignKey(Questions,on_delete=models.CASCADE)
-#     answer = models.CharField(max_length=100)
-
-#     def __str__(self):
-#         return str(self.question.question_name)+"\t:\t"+str(self.answer) 
-
